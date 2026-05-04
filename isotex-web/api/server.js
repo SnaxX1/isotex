@@ -276,7 +276,7 @@ app.post('/api/ai/analyze', upload.single('image'), async (req, res) => {
 
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }, { apiVersion: 'v1' });
     
     const imagePath = req.file.path;
     const base64Image = fs.readFileSync(imagePath).toString('base64');
@@ -360,7 +360,7 @@ ISOTEX offers:
 - Decoration Interieure: Plaquette Parement, Brique Auto Bloquante (Acoustic, modern aesthetics: neutre, jean, mix_color).
 - Isolation: High thermal and acoustic insulation blocs.
 Be concise, helpful, and professional. Always recommend the best ISOTEX product for their needs based on the information provided.`
-    });
+    }, { apiVersion: 'v1' });
     
     let chatHistory = [];
     if (history && history.length > 0) {
