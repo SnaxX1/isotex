@@ -342,13 +342,16 @@ Return ONLY this JSON format:
 });
 
 app.post('/api/ai/chat', async (req, res) => {
+  console.log('[CHAT] Handler reached');
   const { message, history } = req.body;
   
   if (!process.env.GEMINI_API_KEY) {
+    console.error('[CHAT ERROR] API Key missing');
     return res.status(500).json({ error: 'GEMINI_API_KEY is missing' });
   }
 
   try {
+    console.log('[CHAT] Initializing GenAI...');
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ 
       model: 'gemini-1.5-flash',
@@ -371,13 +374,17 @@ Be concise, helpful, and professional. Always recommend the best ISOTEX product 
       chatHistory.shift();
     }
     
+    console.log(`[CHAT] Starting chat with history length: ${chatHistory.length}`);
     const chat = model.startChat({
       history: chatHistory,
     });
 
+    console.log('[CHAT] Sending message to Gemini...');
     const result = await chat.sendMessage(message);
     const response = await result.response;
-    res.json({ reply: response.text() });
+    const reply = response.text();
+    console.log('[CHAT] Received reply from Gemini');
+    res.json({ reply });
   } catch (error) {
     console.error('[CHAT ERROR]:', error);
     const status = error.status || 500;
