@@ -9,7 +9,7 @@ const products = [
     status: 'In Stock',
     description: 'Self-locking architectural brick with a raw industrial aesthetic. The distinctive indigo hue comes from 100% recycled denim fibers.',
     sustainability: '85% recycled denim, 15% mineral-based binder. Recycles 6.5kg of denim waste per unit. Zero-water dyeing process.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1631234567/isotex_products/neobrick_indigo.jpg'
+    image: '/images/IMG-20260420-WA0042.jpg'
   },
   {
     title: 'Soft Grey Facing Plate',
@@ -19,7 +19,7 @@ const products = [
     status: 'In Stock',
     description: 'Ultra-thin facing plates designed for modern interior cladding. Features a smooth, concrete-like finish derived from mixed neutral textile waste.',
     sustainability: '90% mixed neutral textiles, 10% eco-resin. Recycles 3.2kg of mixed textile waste per square meter.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1631234567/isotex_products/facing_plate_grey.jpg'
+    image: '/images/IMG-20260421-WA0014.jpg'
   },
   {
     title: 'Cento Mixed Block',
@@ -29,7 +29,7 @@ const products = [
     status: 'Made to Order',
     description: 'High-density acoustic and thermal isolation block. The unique speckled appearance comes from processing unsorted, multi-colored textile waste streams.',
     sustainability: '100% post-consumer mixed textiles, compressed under heat. Diverts 12kg of unrecyclable mixed textiles from landfill per block.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1631234567/isotex_products/cento_block.jpg'
+    image: '/images/IMG-20260420-WA0030.jpg'
   },
   {
     title: 'Garden Edge - Raw Indigo',
@@ -39,7 +39,7 @@ const products = [
     status: 'In Stock',
     description: 'Weather-resistant landscaping bricks designed for outdoor use. Coated with a proprietary eco-sealant to withstand the elements while maintaining the signature indigo texture.',
     sustainability: '80% recycled denim, 20% weather-resistant bio-resin. Recycles 5kg of denim waste per unit. Non-toxic sealant.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1631234567/isotex_products/garden_edge.jpg'
+    image: '/images/IMG-20260421-WA0010.jpg'
   },
   {
     title: 'NeoBrick - Charcoal Denim',
@@ -49,7 +49,7 @@ const products = [
     status: 'In Stock',
     description: 'Dark-toned self-locking architectural brick crafted from heavy-weight recycled denim offcuts. The deep charcoal finish creates a dramatic, contemporary accent wall effect.',
     sustainability: '88% recycled dark denim, 12% mineral-based binder. Recycles 7kg of dark denim waste per unit. Zero-VOC manufacturing process.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1631234567/isotex_products/neobrick_charcoal.jpg'
+    image: '/images/IMG-20260420-WA0033.jpg'
   },
   {
     title: 'Ivory Facing Plate',
@@ -59,7 +59,7 @@ const products = [
     status: 'In Stock',
     description: 'Premium-finish cladding panel with a warm ivory tone achieved by blending light-colored textile waste streams. Ideal for minimalist and Scandinavian-inspired interiors.',
     sustainability: '92% recycled light-toned textiles, 8% eco-resin. Recycles 3.5kg of light textile waste per square meter. Water-based finishing.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1631234567/isotex_products/facing_plate_ivory.jpg'
+    image: '/images/IMG-20260421-WA0017.jpg'
   },
   {
     title: 'ThermoBlock - Color Mix XL',
@@ -69,7 +69,7 @@ const products = [
     status: 'Made to Order',
     description: 'Extra-large format thermal insulation block for high-performance wall assemblies. The vibrant color-mix pattern makes it a striking choice when left exposed in industrial interiors.',
     sustainability: '100% post-consumer mixed textiles, heat-compressed without adhesives. Diverts 18kg of unsorted mixed textiles from landfill per block.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1631234567/isotex_products/thermoblock_xl.jpg'
+    image: '/images/IMG-20260420-WA0036.jpg'
   },
   {
     title: 'ExteriorFace - Neutral Slab',
@@ -79,7 +79,7 @@ const products = [
     status: 'In Stock',
     description: 'Heavy-duty exterior cladding slab engineered for facade applications. The reinforced eco-resin matrix ensures long-term durability against UV, rain, and thermal cycling.',
     sustainability: '85% recycled neutral textiles, 15% UV-stabilized bio-resin. Recycles 4kg of textile waste per panel. No solvent-based treatments.',
-    image: 'https://res.cloudinary.com/demo/image/upload/v1631234567/isotex_products/exterior_slab.jpg'
+    image: '/images/IMG-20260421-WA0021.jpg'
   }
 ];
 
