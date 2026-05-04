@@ -304,7 +304,7 @@ Return ONLY this JSON format:
 }`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-1.5-flash',
       contents: [
         prompt,
         { inlineData: { data: base64Image, mimeType: req.file.mimetype } }
@@ -321,7 +321,9 @@ Return ONLY this JSON format:
     res.json(parsedData);
   } catch (error) {
     console.error('[AI ERROR]:', error);
-    res.status(500).json({ error: 'Failed to analyze image' });
+    const status = error.status || 500;
+    const message = error.message || 'Failed to analyze image';
+    res.status(status).json({ error: message });
   }
 });
 
@@ -353,7 +355,7 @@ Be concise, helpful, and professional. Always recommend the best ISOTEX product 
     contents.push({ role: 'user', parts: [{ text: message }] });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-1.5-flash',
       contents: contents,
       config: {
         systemInstruction: systemInstruction
@@ -363,7 +365,9 @@ Be concise, helpful, and professional. Always recommend the best ISOTEX product 
     res.json({ reply: response.text });
   } catch (error) {
     console.error('[CHAT ERROR]:', error);
-    res.status(500).json({ error: 'Failed to generate chat response' });
+    const status = error.status || 500;
+    const message = error.message || 'Failed to generate chat response';
+    res.status(status).json({ error: message });
   }
 });
 
