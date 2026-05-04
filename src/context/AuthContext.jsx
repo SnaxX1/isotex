@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { API_URLS } from '../api/config';
 
 const AuthContext = createContext(null);
 
@@ -10,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(API_URLS.login, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: email, password })
@@ -33,7 +34,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, fullName) => {
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch(API_URLS.register, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: email, password, fullName })
@@ -59,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const originalFetch = window.fetch;
-    const AUTH_WHITELIST = ['/api/login', '/api/register', '/api/verify-email', '/api/forgot-password', '/api/reset-password'];
+    const AUTH_WHITELIST = [API_URLS.login, API_URLS.register, API_URLS.verifyEmail, API_URLS.forgotPassword, API_URLS.resetPassword];
     window.fetch = async (...args) => {
       const response = await originalFetch(...args);
       const url = typeof args[0] === 'string' ? args[0] : args[0]?.url || '';

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Upload, Image as ImageIcon, Sparkles, CheckCircle, RefreshCcw, Loader2, MessageSquare, Send, Bot, User as UserIcon } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/footer';
+import { API_URLS } from '../api/config';
 
 const AiAssistantPage = () => {
   const [activeTab, setActiveTab] = useState('image');
@@ -63,7 +64,7 @@ const AiAssistantPage = () => {
       const headers = {};
       if (token) headers['Authorization'] = `Bearer ${token}`;
 
-      const res = await fetch('/api/ai/analyze', {
+      const res = await fetch(API_URLS.analyze, {
         method: 'POST',
         headers,
         body: formData,
@@ -104,7 +105,7 @@ const AiAssistantPage = () => {
         text: m.text
       }));
 
-      const res = await fetch('/api/ai/chat', {
+      const res = await fetch(API_URLS.chat, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMessage, history })

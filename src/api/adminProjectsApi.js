@@ -1,3 +1,5 @@
+import { API_URLS } from './config';
+
 const getAuthHeaders = () => {
   const token = localStorage.getItem('ISOTEX_admin_token');
   return {
@@ -8,13 +10,13 @@ const getAuthHeaders = () => {
 
 export const projectsApi = {
   getProjects: async () => {
-    const res = await fetch('/api/projects', { headers: getAuthHeaders() });
+    const res = await fetch(API_URLS.projects, { headers: getAuthHeaders() });
     if (!res.ok) throw new Error('Failed to fetch projects');
     return res.json();
   },
 
   addProject: async (projectData) => {
-    const res = await fetch('/api/projects', {
+    const res = await fetch(API_URLS.projects, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(projectData)
@@ -24,7 +26,7 @@ export const projectsApi = {
   },
 
   deleteProject: async (id) => {
-    const res = await fetch(`/api/projects/${id}`, {
+    const res = await fetch(`${API_URLS.projects}/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders()
     });
