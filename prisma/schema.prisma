@@ -1,0 +1,86 @@
+datasource db {
+  provider  = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated-client"
+}
+
+model User {
+  id                 Int       @id @default(autoincrement())
+  username           String    @unique
+  password           String
+  fullName           String?   @map("full_name")
+  role               String?   @default("user")
+  resetToken         String?   @map("reset_token")
+  resetTokenExpiry   DateTime? @map("reset_token_expiry")
+  isVerified         Int?      @default(1) @map("is_verified")
+  verificationToken  String?   @map("verification_token")
+  orders             Order[]
+
+  @@map("users")
+}
+
+model Product {
+  id             Int     @id @default(autoincrement())
+  title          String?
+  category       String?
+  price          String?
+  stock          Int?
+  status         String?
+  description    String?
+  sustainability String?
+  image          String?
+
+  @@map("products")
+}
+
+model Project {
+  id       Int     @id @default(autoincrement())
+  title    String?
+  status   String?
+  location String?
+  date     String?
+  impact   String?
+  type     String?
+  progress Int?
+
+  @@map("projects")
+}
+
+model Subscriber {
+  id       Int       @id @default(autoincrement())
+  email    String?   @unique
+  joinedAt DateTime? @default(now()) @map("joined_at")
+
+  @@map("subscribers")
+}
+
+model Order {
+  id              Int       @id @default(autoincrement())
+  userId          Int?      @map("user_id")
+  user            User?     @relation(fields: [userId], references: [id])
+  items           String?
+  total           Float?
+  paymentMethod   String?   @map("payment_method")
+  status          String?   @default("Pending")
+  shippingAddress String?   @map("shipping_address")
+  createdAt       DateTime? @default(now()) @map("created_at")
+
+  @@map("orders")
+}
+
+model Depo {
+  id             Int       @id @default(autoincrement())
+  fullName       String?   @map("full_name")
+  email          String?
+  phone          String?
+  weightKg       Float?    @map("weight_kg")
+  payout         Float?
+  deliveryMethod String?   @map("delivery_method")
+  status         String?   @default("Pending")
+  createdAt      DateTime? @default(now()) @map("created_at")
+
+  @@map("depos")
+}
