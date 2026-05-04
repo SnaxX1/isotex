@@ -41,6 +41,9 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+console.log("GEMINI KEY EXISTS:", !!process.env.GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
@@ -104,7 +107,6 @@ app.get('/api/test-email', async (req, res) => {
 app.get('/api/test-ai', async (req, res) => {
   try {
     if (!process.env.GEMINI_API_KEY) throw new Error("GEMINI_API_KEY missing");
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent("Say hello");
     res.json({ 
@@ -381,7 +383,7 @@ Return ONLY this JSON format:
   "reason": ""
 }`;
 
-    const model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent([
       prompt,
       { inlineData: { data: base64Image, mimeType: req.file.mimetype } }
@@ -409,15 +411,13 @@ app.post('/api/ai/chat', async (req, res) => {
   }
 
   try {
-    const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    
     const systemInstruction = `You are an expert in sustainable architecture and ISOTEX's recycled textile construction products.
 ISOTEX offers:
 - Decoration Interieure: Plaquette Parement, Brique Auto Bloquante (Acoustic, modern aesthetics: neutre, jean, mix_color).
 - Isolation: High thermal and acoustic insulation blocs.
 Be concise, helpful, and professional. Always recommend the best ISOTEX product for their needs based on the information provided.`;
 
-    const model = ai.getGenerativeModel({ 
+    const model = genAI.getGenerativeModel({ 
       model: "gemini-2.5-flash",
       systemInstruction: systemInstruction 
     });
