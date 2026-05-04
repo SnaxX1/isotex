@@ -1,4 +1,24 @@
-# Logs
+# Dependencies
+node_modules/
+dist/
+dist-ssr/
+build/
+web-build/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.local
+
+# Logs and Debug
 logs
 *.log
 npm-debug.log*
@@ -6,19 +26,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.metro-health-check*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Environment variables
-.env
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# IDEs and Editors
+.vscode/
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
@@ -26,10 +38,21 @@ dist-ssr
 *.sln
 *.sw?
 
+# Project Specific
 /src/generated/prisma
 /scratch
 *.sqlite
-node_modules/
-dist/
-.env
 .gemini/
+/prisma/migrations/
+
+# Native (Mobile)
+/ios
+/android
+.kotlin/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+.expo/
+expo-env.d.ts
