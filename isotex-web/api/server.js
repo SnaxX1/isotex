@@ -355,11 +355,13 @@ app.post('/api/ai/chat', async (req, res) => {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ 
       model: 'gemini-1.5-flash',
-      systemInstruction: `You are an expert in sustainable architecture and ISOTEX's recycled textile construction products.
+      systemInstruction: {
+        parts: [{ text: `You are an expert in sustainable architecture and ISOTEX's recycled textile construction products.
 ISOTEX offers:
 - Decoration Interieure: Plaquette Parement, Brique Auto Bloquante (Acoustic, modern aesthetics: neutre, jean, mix_color).
 - Isolation: High thermal and acoustic insulation blocs.
-Be concise, helpful, and professional. Always recommend the best ISOTEX product for their needs based on the information provided.`
+Be concise, helpful, and professional. Always recommend the best ISOTEX product for their needs based on the information provided.` }]
+      }
     }, { apiVersion: 'v1' });
     
     let chatHistory = [];
