@@ -6,7 +6,7 @@
   "scripts": {
     "setup": "npm ci && npm rebuild",
     "dev": "concurrently \"npm run server\" \"vite --host\"",
-    "server": "node server/server.js",
+    "server": "node api/server.js",
     "build": "prisma generate && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
