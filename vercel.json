@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/isotex-web/api/server.js"
+      "destination": "/api/server.js"
     },
     {
       "source": "/((?!api/).*)",
-      "destination": "/isotex-web/index.html"
+      "destination": "/index.html"
     }
   ]
 }
