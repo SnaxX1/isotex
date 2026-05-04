@@ -12,7 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@google/genai": "^1.51.0",
+    "@google/generative-ai": "^0.21.0",
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^1.41.3",

@@ -11,7 +11,7 @@ import fs from 'fs';
 import crypto from 'crypto';
 import { db } from './db.js';
 import nodemailer from 'nodemailer';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
@@ -267,7 +267,9 @@ app.post('/api/ai/analyze', upload.single('image'), async (req, res) => {
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    
     const imagePath = req.file.path;
     const base64Image = fs.readFileSync(imagePath).toString('base64');
     
@@ -304,21 +306,24 @@ Return ONLY this JSON format:
   "reason": ""
 }`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash-latest',
-      contents: [
-        prompt,
-        { inlineData: { data: base64Image, mimeType: req.file.mimetype } }
-      ]
-    });
+    const result = await model.generateContent([
+      prompt,
+      {
+        inlineData: {
+          data: base64Image,
+          mimeType: req.file.mimetype
+        }
+      }
+    ]);
 
-    let rawText = response.text;
+    const response = await result.response;
+    let rawText = response.text();
+    
     if (rawText.startsWith('\`\`\`json')) {
        rawText = rawText.replace(/^\`\`\`json\n?/, '').replace(/\n?\`\`\`$/, '');
     }
     
     const parsedData = JSON.parse(rawText.trim());
-    
     res.json(parsedData);
   } catch (error) {
     console.error('[AI ERROR]:', error);
@@ -336,34 +341,35 @@ app.post('/api/ai/chat', async (req, res) => {
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    
-    const systemInstruction = `You are an expert in sustainable architecture and ISOTEX's recycled textile construction products.
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ 
+      model: 'gemini-1.5-flash',
+      systemInstruction: `You are an expert in sustainable architecture and ISOTEX's recycled textile construction products.
 ISOTEX offers:
 - Decoration Interieure: Plaquette Parement, Brique Auto Bloquante (Acoustic, modern aesthetics: neutre, jean, mix_color).
 - Isolation: High thermal and acoustic insulation blocs.
-Be concise, helpful, and professional. Always recommend the best ISOTEX product for their needs based on the information provided.`;
-
-    let contents = [];
+Be concise, helpful, and professional. Always recommend the best ISOTEX product for their needs based on the information provided.`
+    });
+    
+    let chatHistory = [];
     if (history && history.length > 0) {
-      contents = history.map(msg => ({ role: msg.role === 'user' ? 'user' : 'model', parts: [{ text: msg.text }] }));
+      chatHistory = history.map(msg => ({ 
+        role: msg.role === 'user' ? 'user' : 'model', 
+        parts: [{ text: msg.text }] 
+      }));
     }
     
-    while (contents.length > 0 && contents[0].role === 'model') {
-      contents.shift();
+    while (chatHistory.length > 0 && chatHistory[0].role === 'model') {
+      chatHistory.shift();
     }
     
-    contents.push({ role: 'user', parts: [{ text: message }] });
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash-latest',
-      contents: contents,
-      config: {
-        systemInstruction: systemInstruction
-      }
+    const chat = model.startChat({
+      history: chatHistory,
     });
 
-    res.json({ reply: response.text });
+    const result = await chat.sendMessage(message);
+    const response = await result.response;
+    res.json({ reply: response.text() });
   } catch (error) {
     console.error('[CHAT ERROR]:', error);
     const status = error.status || 500;
