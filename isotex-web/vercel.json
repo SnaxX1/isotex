@@ -12,7 +12,7 @@
   ],
   "functions": {
     "server/server.js": {
-      "runtime": "vercel-node"
+      "runtime": "vercel-node@0.1.0"
     }
   }
 }
