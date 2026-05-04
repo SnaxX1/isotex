@@ -279,7 +279,15 @@ app.post('/api/ai/analyze', upload.single('image'), async (req, res) => {
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     
     const imagePath = req.file.path;
-    const base64Image = fs.readFileSync(imagePath).toString('base64');
+    let base64Image;
+
+    if (imagePath.startsWith('http')) {
+      const response = await fetch(imagePath);
+      const buffer = await response.arrayBuffer();
+      base64Image = Buffer.from(buffer).toString('base64');
+    } else {
+      base64Image = fs.readFileSync(imagePath).toString('base64');
+    }
     
     const prompt = `You are an expert in sustainable architecture and material selection using recycled textile-based construction products.
 You MUST return ONLY a valid JSON object.
