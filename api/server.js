@@ -92,6 +92,20 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+app.get('/api/setup-admin-live', async (req, res) => {
+  try {
+    const hashed = await bcrypt.hash('1234', 12);
+    await db.user.upsert({
+      where: { username: 'admin' },
+      update: { password: hashed, role: 'admin', isVerified: 1 },
+      create: { username: 'admin', password: hashed, fullName: 'System Admin', role: 'admin', isVerified: 1 }
+    });
+    res.json({ success: true, message: 'Admin user "admin" with password "1234" is now ready in the LIVE database.' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 const isAdmin = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next();
