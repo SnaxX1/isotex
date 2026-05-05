@@ -9,8 +9,7 @@
     "server": "node server/server.js",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "postinstall": "prisma generate"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@google/genai": "^1.51.0",

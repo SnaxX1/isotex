@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/footer';
 import { Search } from 'lucide-react';
-import { API_URLS } from '../api/config';
+import { PRODUCTS } from '../data/products';
 
 const ProductSkeleton = () => (
   <div className="flex flex-col animate-pulse">
@@ -50,13 +50,13 @@ const ProductCard = ({ product }) => (
       />
       
       <div className="absolute top-4 left-4 bg-[#EDEDED]/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-[9px] font-bold tracking-widest text-[#000000] uppercase shadow-sm z-10">
-        {product.status || 'NEW'}
+        {product.tag}
       </div>
     </div>
 
     <div className="flex justify-between items-start mb-1 px-1 gap-4">
       <h3 className="font-serif text-[14px] lg:text-[15px] text-[#000000] leading-tight flex-1 min-w-0">{product.title}</h3>
-      <span className="font-sans text-[13px] text-[#444444] whitespace-nowrap">{product.price} TND</span>
+      <span className="font-sans text-[13px] text-[#444444] whitespace-nowrap">{product.price}</span>
     </div>
     
     <div className="px-1 mb-4">
@@ -65,7 +65,7 @@ const ProductCard = ({ product }) => (
 
     <div className="px-1 mt-auto">
       <span className="inline-flex items-center justify-center border border-[#444444]/30 px-3 py-1.5 rounded-full text-[8px] font-bold tracking-[0.1em] uppercase text-[#444444] max-w-full text-center">
-        <span className="truncate">{product.category === 'INSULATION' ? 'Solid Block' : (product.category === 'INTERIOR DECORATION' ? 'Interlocking Bricks' : 'Facing Panels')}</span>
+        <span className="truncate">{product.pill}</span>
       </span>
     </div>
   </Link>
@@ -99,20 +99,11 @@ const ShopPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch(API_URLS.products);
-        if (!res.ok) throw new Error('Failed to fetch');
-        const data = await res.json();
-        setDbProducts(data);
-      } catch (err) {
-        console.error('Error fetching products:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
+    const timer = setTimeout(() => {
+      setDbProducts(PRODUCTS);
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   const normalize = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
